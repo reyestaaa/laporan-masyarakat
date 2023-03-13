@@ -1,51 +1,106 @@
 @extends('layouts.auth')
 
-@section('header', 'Halaman Login Admin')
+@section('title', 'Halaman Login Admin')
+
+@section('css')
+
+
+    
+@endsection
 
 @section('content')
-<main class="main-content  mt-0">
-    <section>
-      <div class="page-header min-vh-100">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
-              <div class="card card-plain">
-                <div class="card-header pb-0 text-start">
-                  <h4 class="font-weight-bolder">Login admin</h4>
-                  <p class="mb-0">Enter your username and password to Login Admin</p>
-                </div>
-                <div class="card-body">
-                  <form action="{{ route('admin.login') }}" method="POST" role="form">
-                    @csrf
-                    <div class="form-group">
-                      <input type="text" name="username" placeholder="Username" class="form-control form-control-lg">
+
+<div class="auth-page">
+  <div class="container-fluid p-0">
+      <div class="row g-0">
+          <div class="col-xxl-4 col-lg-5 col-md-6">
+              <div class="auth-full-page-content d-flex p-sm-5 p-4">
+                  <div class="w-100">
+                      <div class="d-flex flex-column h-100">
+                          <div class="mb-4 mb-md-5 text-center">
+                              <a href="index.html" class="d-block auth-logo">
+                                  <img src="{{ asset('/assets-admin') }}/images/logo.png" alt="" class="rounded-circle" height="50">
+                              </a>
+                          </div>
+                          <div class="auth-content my-auto">
+                              <div class="text-center">
+                                  <h5 class="mb-0">Selamat Datang</h5>
+                                  <p class="text-muted mt-2">Silahkan Masuk untuk Melanjutkan</p>
+                              </div>
+                              <form action="{{ route('admin.login') }}" method="POST" role="form" class="mt-4 pt-2">
+                                @csrf
+                                  <div class="mb-3">
+                                      <label class="form-label">Username</label>
+                                      <input type="text" class="form-control" name="username" placeholder="Masukkan Username">
+                                  </div>
+                                  <div class="mb-3">
+                                      <div class="d-flex align-items-start">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label">Kata Sandi</label>
+                                          </div>
+                                      </div>
+                                      
+                                      <div class="input-group auth-pass-inputgroup">
+                                        <input type="password" name="password" class="form-control" placeholder="Masukkan Kata Sandi" id="password" aria-label="Password" aria-describedby="password-addon">
+                                        <button class="btn btn-light shadow-none ms-0" type="button" onclick="showPassword()" aria-label="Toggle password visibility">
+                                          <i class="mdi mdi-eye-outline"></i>
+                                        </button>
+                                        
+                                      </div>
+                                      
+                                  </div>
+
+                                  @if(session('pesan'))
+                                    <div class="alert alert-danger">
+                                        {{ session('pesan') }}
+                                    </div>
+                                  @endif
+
+                                  
+                                  <div class="mb-3">
+                                      <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Masuk</button>
+                                  </div>
+                              </form>
+                              <a href="/">Kembali</a>
+                          </div>
+                          <div class="mt-4 mt-md-5 text-center">
+                              <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> Laporian Aplikasi Laporan Masyarakat</p>
+                          </div>
+                      </div>
                   </div>
-                  <div class="form-group">
-                      <input type="password" name="password" placeholder="Password" class="form-control form-control-lg">
-                  </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="rememberMe">
-                      <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
-                    </div>
-                  </form>
-                </div>
-                <a href="/" class="text-primary">Kembali halaman depan</a>
               </div>
-            </div>
-            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://i.pinimg.com/564x/6e/a0/61/6ea061e068f924f8d5d818f11134a25d.jpg');
-          background-size: cover;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
-                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Perjalanan Kehidupan"</h4>
-                <p class="text-white position-relative">Hidup adalah perjalanan yang penuh dengan rintangan dan tantangan. Namun, dalam setiap rintangan dan tantangan yang kita hadapi, terdapat pelajaran yang bisa dipetik dan pengalaman yang bisa membuat kita tumbuh dan berkembang menjadi pribadi yang lebih baik</p>
-              </div>
-            </div>
+              <!-- end auth full page content -->
           </div>
-        </div>
+          <!-- end col -->
+          <div class="col-xxl-8 col-lg-7 col-md-6">
+              <div class="auth-bg pt-md-5 p-4 d-flex">
+                  <div class="bg-overlay bg-unguy"></div>
+                  
+              </div>
+          </div>
+          <!-- end col -->
       </div>
-    </section>
-</main>
+      <!-- end row -->
+  </div>
+  <!-- end container fluid -->
+</div>
+
+@endsection
+
+@section('js')
+
+  <script>
+  function showPassword() {
+    var passwordInput = document.querySelector('.auth-pass-inputgroup input[type="password"]');
+    var toggleButton = document.querySelector('.auth-pass-inputgroup button');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleButton.innerHTML = '<i class="mdi mdi-eye-off-outline"></i>';
+    } else {
+      passwordInput.type = 'password';
+      toggleButton.innerHTML = '<i class="mdi mdi-eye-outline"></i>';
+    }
+  }
+
+  </script>
 @endsection

@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Petugas;
 use App\Models\Kategori;
 use App\Models\Masyarakat;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Imports\MasyarakatImport;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 
 
 class MasyarakatController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return view('Admin.Masyarakat.index', [
-            'masyarakat' => Masyarakat::all()
+            'masyarakat' => Masyarakat::latest()->get()
         ]);
         
     }
@@ -43,12 +45,12 @@ class MasyarakatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($nik)
-    {
-        return view('Admin.Masyarakat.show', [
-            'masyarakat' => Masyarakat::where('nik', $nik)->first()
-        ]);
-    }
+    // public function show($nik)
+    // {
+    //     return view('Admin.Masyarakat.show', [
+    //         'masyarakat' => Masyarakat::where('nik', $nik)->first()
+    //     ]);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -62,48 +64,76 @@ class MasyarakatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-public function update(Request $request, $nik)
-{
-    $data = $request->all();
-    
-    $validate = Validator::make($data, [
-        'nik' => 'required|size:16|unique:masyarakats,nik,'.$nik.',nik',
-        'nama' => 'required|max:35',
-        'username' => 'required|max:25|unique:masyarakats,username,'.$nik.',nik',
-        'password' => 'required|max:255',
-        'telp' => 'required|max:15',
-    ]);
-    
-    if ($validate->fails()) {
-        return redirect()->back()->withErrors($validate);
-    }
-    
-    $masyarakat = Masyarakat::find($nik);
-    
-    if (!$masyarakat) {
-        return redirect()->back()->with([
-            'message' => 'Data masyarakat tidak ditemukan'
+    public function update(Request $request, $nik)
+    {
+        $validated = $request->validate([
+            'nama' => 'required',
+            'username' => 'required|unique:masyarakats,username,'.$nik.',nik',
+            'password' => 'required',
+            'alamat' => 'required',
+            'telp' => 'required',
         ]);
+
+        $masyarakat = Masyarakat::find($nik);
+        $masyarakat->update($validated);
+
+        return redirect()->route('masyarakat.index')
+            ->with('success', 'Data berhasil diupdate.');
+    }
+
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+    
+        // Validasi file Excel
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+    
+        // Import data dari file Excel
+        try {
+            Excel::import(new MasyarakatImport, $file);
+    
+            return redirect()->back()->with('success', 'Data berhasil diimport!');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+    
+            return redirect()->back()->withErrors($failures);
+        }
     }
     
-    $masyarakat->nama = $data['nama'];
-    $masyarakat->username = $data['username'];
-    
-    if (!empty($data['password'])) {
-        $masyarakat->password = Hash::make($data['password']);
+    public function export()
+    {
+        $data = Masyarakat::all();
+
+        $pdf = Pdf::loadView('Admin.Masyarakat.export', [
+            'data' => $data
+        ]);
+        return $pdf->download('laporan-masyarakat.pdf');
     }
-    
-    $masyarakat->telp = $data['telp'];
-    $masyarakat->save();
-    
-    return redirect()->route('Admin.Masyarakat.index');
-}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $masyarakat = Masyarakat::find($id);
+    
+        if (!$masyarakat) {
+            return redirect()->back()->with([
+                'error' => 'Data masyarakat tidak ditemukan'
+            ]);
+        }
+    
+        $masyarakat->delete();
+    
+        return redirect()->route('masyarakat.index')->with([
+            'success' => 'Data masyarakat berhasil dihapus'
+        ]);
     }
 }

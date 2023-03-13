@@ -1,53 +1,55 @@
 @extends('layouts.admin')
 
-
-@section('header', 'HALAMAN LAPORAN')
+@section('title', 'HALAMAN LAPORAN')
 
 @section('content')
 
 <div class="row">
     <div class="col-lg-6 col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="text-center">
+        <div class="card shadow border border-secondary border-3">
+            <div class="card-header ">
+                <div class="text-center fs-4 fw-semibold">
                     Cari berdasarkan tnggal
                 </div>
             </div>
             <div class="card-body">
             <form action="{{ route('laporan.getLaporan') }}" method="POST">
                     @csrf
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <input type="text" name="from" class="form-control" placeholder="TANGGAL AWAL" onfocusin="{this.type='date'}" onfocusout="{this.type='text'}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <input type="text" name="to" class="form-control" placeholder="TANGGAL AKHIR" onfocusin="{this.type='date'}" onfocusout="{this.type='text'}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Cari</button>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary w-50 fw-bold fs-5">Cari</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="float-right">
+        <div class="card shadow border border-secondary border-3">
+            <div class="card-header ">
+
+                <div class="text-center fs-4 fw-semibold">
+                    Data berdasarkan tnggal
+                </div>
+                <div class="float-right mt-3">
                     @if ($pengaduan ?? '')
                         <a href="{{ route('laporan.cetakLaporan', ['from' => $from, 'to' => $to]) }}" class="btn btn-danger">EKSPORT PDF</a>
                     @endif
-                </div>
-                <div class="text-center">
-                    Data berdasarkan tnggal
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     @if ($pengaduan ?? "")
-                    <table class="table">
+                    <table class="table" >
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
-                                <th>Isi Laporan</th>
+                                <th>Judul Laporan</th>
                                 <th>Status</th>
                             </tr>
                         </thead>

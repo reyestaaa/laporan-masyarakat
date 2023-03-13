@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 
-@section('header', 'HALAMAN LAPORAN')
+@section('title', 'HALAMAN LAPORAN')
 
 @section('content')
 
@@ -10,26 +10,31 @@
         <div class="d-flex justify-content-between">
           <h3 class="mb-3">Kategori</h3>
           {{-- <a href="{{ route('kategori.create') }}" class="btn btn-primary mb-4">Tambah Kategori</a> --}}
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-create">
+          <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#modal-create">
             Tambah Kategori
         </button>
         
         </div>
         @if(session('success'))
-            <div class="alert alert-success text-light">
+            <div class="alert alert-success">
                 {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
         @endif
       </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="aduan1" class="table text-start mt-2">
-
-                <thead>
+            <table id="aduan1" class="table table-bordered dt-responsive  nowrap w-100 text-center">
+                
+                <thead class="bg-primary text-white">
                     <tr>
                         <th>NO</th>
-                        <th>kategori</th>
-                        <th>aksi</th>
+                        <th>Kategori</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
 
@@ -39,12 +44,16 @@
                     <tr>
                         <td>{{ $k += 1 }}</td>
                         <td>{{ $v->kategori}}</td>
-                        <td>
-                            <form action="{{ route('kategori.destroy', $v->id_kategori) }}" method="POST">
+                        <td class="d-flex justify-content-evenly">
+                            <a href="{{ route('kategori.edit', $v->id_kategori) }}" class="btn btn-primary">Edit</a>
+                            <form class="form-delete" action="{{ route('kategori.destroy', $v->id_kategori) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Hapus</button>
                             </form>
+                            
+                            
+                            
                         </td>
                     </tr>
                     @endforeach
@@ -55,6 +64,8 @@
     </div>
 </div>
 
+
+{{-- ADD --}}
 <div class="modal fade" id="modal-create" tabindex="-1" aria-labelledby="modalCreateLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -85,11 +96,13 @@
 </div>
 
 
+
+
 @endsection
 
 
 @section('js')
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+
     <script>
         $(document).ready( function () {
             $('#aduan1').DataTable();
@@ -105,4 +118,29 @@
         });
     });
 </script>
-@endsection
+
+<script>
+    $(document).ready(function() {
+        $('.form-delete').on('click', function(e) {
+            e.preventDefault();
+            var form = this;
+            swal({
+                title: "Anda yakin ingin menghapus data ini?",
+                text: "Data yang dihapus tidak dapat dikembalikan.",
+                icon: "warning",
+                buttons: ["Batal", "Hapus"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                } else {
+                    swal("Data tidak dihapus.", {
+                        icon: "info",
+                    });
+                }
+            });
+        });
+    });
+</script>
+@endsection  

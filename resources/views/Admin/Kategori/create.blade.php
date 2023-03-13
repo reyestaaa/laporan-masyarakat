@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('header', 'TAMBAH DATA kategori')
+@section('title', 'TAMBAH DATA kategori')
 
 @section('content')
 

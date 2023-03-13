@@ -22,6 +22,11 @@ Route::middleware(['guest'])->group(function () {
     //Register
     Route::get('/register', [UserController::class, 'formRegister'])->name('pekat.formRegister');
     Route::post('/register/auth', [UserController::class, 'register'])->name('pekat.register');
+
+    //Reset password
+
+    Route::get('/reset-password', [UserController::class, 'resetPassword'])->name('pekat.resetPassword');
+    
 });
 
 // Authenticated user routes
@@ -29,18 +34,25 @@ Route::middleware(['isMasyarakat'])->group(function () {
     Route::post('/store', [UserController::class, 'storePengaduan'])->name('pekat.store');
     Route::get('/laporan/{siapa?}', [UserController::class, 'laporan'])->name('pekat.laporan');
     Route::get('/logout', [UserController::class, 'logout'])->name('pekat.logout');
+    Route::get('/laporans/{id}', [UserController::class, 'show'])->name('pekat.show');
 
 });
 
 // Admin routes
 Route::prefix('admin')->group(function () {
 
+
+    // ADMIN
     Route::middleware(['isAdmin'])->group(function () {
         //Petugas
         Route::resource('petugas', PetugasController::class);
 
         //Masyarakat
         Route::resource('masyarakat', MasyarakatController::class);
+
+        Route::post('/masyarakat/import', [MasyarakatController::class, 'import'])->name('masyarakat.import');
+
+        Route::get('/masyarakat-export-pdf', [MasyarakatController::class, 'export'])->name('masyarakat.export');
 
         Route::resource('kategori', KategoriController::class);
 
@@ -50,6 +62,8 @@ Route::prefix('admin')->group(function () {
         Route::get('laporan/cetak/{from}/{to}', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetakLaporan');
     });
 
+
+    // PETUGAS
     Route::middleware(['isPetugas'])->group(function () {
         //Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');

@@ -5,33 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DATA REKAP LAPORAN</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #6a70fc;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 
 </head>
 <body>
     
-    <div class="text-center">
+    <div style="text-align: center">
         <h2>Laporan Pengaduan Masyarakat</h2>
         
     </div>
-    <div class="text-left" style="display:flex;">
+    <div class="text-left" style="display:flex; text-align:start; margin-bottom:20px;">
         <h4>Tanggal :</h4>
         <span id="tanggal">{{now()}}</span>
     </div>
 
-    <div class="mt-3">
         <table class="table" border="">
 
             <thead>
                 <tr>
-                    <td>NO</td>
-                    <td>TANGGAL</td>
-                    <td>JUDUL</td>
-                    <td>KATEGORI</td>
-                    <td>LOKASI</td>
-                    <td>ISI LAPORAN</td>
-                    <td>STATUS</td>
+                    <th>NO</th>
+                    <th>TANGGAL</th>
+                    <th>JUDUL</th>
+                    <th>KATEGORI</th>
+                    <th>LOKASI</th>
+                    <th>ISI LAPORAN</th>
+                    <th>STATUS</th>
                 </tr>
             </thead>
 
@@ -53,7 +74,6 @@
             </tbody>
 
         </table>
-    </div>
 
     <script>
        // Mendapatkan tanggal saat ini

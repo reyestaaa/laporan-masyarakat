@@ -21,33 +21,28 @@ class TanggapanController extends Controller
 
         $tanggapan = Tanggapan::where('id_pengaduan', $request->id_pengaduan)->first();
 
-        if($tanggapan){
-            $pengaduan->update(['status' => $request->status]);
-            $tanggapan->update([
-                'tgl_tanggapan' => date('Y-m-d'),
-                'tanggapan' => $request->tanggapan,
-                'id_petugas' => Auth::guard('admin')->user()->id_petugas,
-            ]);
+        $pengaduan->update(['status' => $request->status]);
 
-            return redirect()->route('pengaduan.show', [
-                'pengaduan' => $pengaduan,
-                'tanggapan' => $tanggapan
-            ])->with(['status' => 'Berhasi Dikirim']); ;   
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('assets/pengaduan', 'public');
         } else {
-            $pengaduan->update(['status' => $request->status]);
-
-            $tanggapan = Tanggapan::create([
-                'id_pengaduan' => $request->id_pengaduan,
-                'tgl_tanggapan' => date('Y-m-d'),
-                'tanggapan' => $request->tanggapan,
-                'id_petugas' => Auth::guard('admin')->user()->id_petugas,
-            ]);
-
-            return redirect()->route('pengaduan.show', [
-                'pengaduan' => $pengaduan,
-                'tanggapan' => $tanggapan
-            ])->with(['status' => 'Berhasi Dikirim']); 
+            $data['foto'] = '';
         }
+        date_default_timezone_set('Asia/Bangkok');
+
+        $tanggapan = Tanggapan::create([
+            'id_pengaduan' => $request->id_pengaduan,
+            'tgl_tanggapan' => date('Y-m-d H:i:s'),
+            'tanggapan' => $request->tanggapan,
+            'foto' => $data['foto'],
+            'id_petugas' => Auth::guard('admin')->user()->id_petugas,
+        ]);
+        
+        return redirect()->route('pengaduan.show', [
+            'pengaduan' => $pengaduan,
+            'tanggapan' => $tanggapan
+        ])->with(['status' => 'Berhasi Dikirim']); 
+
      }
 
     public function index()

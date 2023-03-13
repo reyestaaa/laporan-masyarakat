@@ -17,6 +17,7 @@ class Tanggapan extends Model
         'id_pengaduan',
         'tgl_tanggapan',
         'tanggapan',
+        'foto',
         'id_petugas'
     ];
 

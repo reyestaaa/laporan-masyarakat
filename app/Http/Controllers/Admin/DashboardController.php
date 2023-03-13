@@ -21,7 +21,8 @@ class DashboardController extends Controller
         $proses = Pengaduan::where('status', 'proses')->get()->count();
         $selesai = Pengaduan::where('status', 'selesai')->get()->count();
         $pengaduan = Pengaduan::where('status', '0')->get();
-        $foto = Pengaduan::where('status', 'selesai')->get();
+        $pending = Pengaduan::where('status', '0')->get()->count();
+        $foto = Pengaduan::where('status', 'selesai')->take(3)->get();
         $prosest = Pengaduan::where('status', 'proses')->get();
         
         return view('Admin.dashboard.index', [
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             'proses' => $proses,
             'selesai' => $selesai,
             'pengaduan' => $pengaduan,
+            'pending' => $pending,
             'foto' => $foto,
             'prosest' => $prosest
         ]);

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
 use App\Models\Tanggapan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class PengaduanController extends Controller
 {
@@ -67,6 +68,21 @@ class PengaduanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // menghapus data pada tabel `tanggapan` yang terikat dengan data yang ingin dihapus pada tabel `pengaduan`
+        Tanggapan::where('id_pengaduan', $id)->delete();
+    
+        // menghapus data pada tabel `pengaduan`
+        $pengaduan = Pengaduan::where('id_pengaduan', $id)->delete();
+    
+        if ($pengaduan) {
+            return redirect()->route('pengaduan.index')->with('success', 'Pengaduan berhasil dihapus');
+        } else {
+            return redirect()->back()->with('error', 'Pengaduan gagal dihapus');
+        }
     }
+    
+    
+    
+    
+    
 }

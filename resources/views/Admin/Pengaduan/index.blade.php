@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css">
-@endsection
-
-@section('header', 'Data Pengaduan')
+@section('title', 'Data Pengaduan')
 
 @section('content')
 
@@ -13,10 +9,21 @@
       <div class="d-flex justify-content-between">
         <h3 class="mb-3">Pengaduan</h3>
       </div>
+      @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+      @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="table_aduan" class="table align-items-center">
+            <table id="table_aduan" class="table table-bordered dt-responsive text-center nowrap w-100 ">
         
                 <thead>
                     <tr>
@@ -32,7 +39,8 @@
                     @foreach ($pengaduan as $k => $v)            
                     <tr>
                         <td>{{ $k += 1 }}</td>
-                        <td>{{ $v->tgl_pengaduan }}</td>
+                        <td>{{ \Carbon\Carbon::parse($v->tgl_pengaduan)->format('d F Y, H:s') }}
+                        </td>
                         <td>{{ $v->judul }}</td>
                         <td>
                             @if ($v->status == '0')
@@ -43,8 +51,13 @@
                                 <a href="#" class="btn btn-success">SELESAI</a>
                             @endif
                         </td>
-                        <td>
+                        <td class="d-flex justify-content-evenly">
                             <a href="{{ route('pengaduan.show', $v->id_pengaduan) }}" class="btn btn-primary">LIHAT</a>
+                            <form id="delete-form" action="{{ route('pengaduan.destroy', $v->id_pengaduan) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete()">Hapus</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
@@ -58,10 +71,30 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready( function () {
             $('#table_aduan').DataTable();
         } );
     </script>
+    
+<script>
+    function confirmDelete() {
+        swal({
+            title: "Anda yakin ingin menghapus data ini?",
+            text: "Data yang dihapus tidak dapat dikembalikan.",
+            icon: "warning",
+            buttons: ["Batal", "Hapus"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                document.getElementById("delete-form").submit();
+            } else {
+                swal("Data tidak dihapus.", {
+                    icon: "info",
+                });
+            }
+        });
+    }
+</script>
 @endsection

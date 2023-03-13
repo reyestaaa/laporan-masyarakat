@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('header', 'EDIT DATA PETUGAS')
+@section('title', 'EDIT DATA PETUGAS')
 
 @section('content')
 
     <div class="row d-flex justify-content-center">
         <div class="col-lg-6 col-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header fs-4 fw-semibold">
                     Form Edit Petugas
                 </div>
                 <div class="card-body">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label for="telp">No.telepon</label>
-                            <input type="text" value="{{ $petugas->telp }}" name="telp" id="telp" class="form-control">
+                            <input type="number" value="{{ $petugas->telp }}" name="telp" id="telp" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="level">Level</label>

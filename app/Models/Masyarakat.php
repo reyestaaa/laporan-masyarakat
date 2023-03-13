@@ -18,6 +18,7 @@ class Masyarakat extends Authenticateble
         'nama',
         'username',
         'password',
+        'alamat',
         'telp'
     ];
 }

@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.css">
-@endsection
-
-@section('header', 'DATA PETUGAS')
+@section('title', 'DATA PETUGAS')
 
 @section('content')
 
@@ -14,10 +10,20 @@
         <h3 class="mb-3">Petugas</h3>
         <a href="{{ route('petugas.create') }}" class="btn btn-primary mb-4">Tambah Petugas</a>
       </div>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table id="petugasT" class="table">
+            <table id="petugasT" class="table table-bordered dt-responsive  nowrap w-100 text-center">
 
                 <thead>
                     <tr>
@@ -40,10 +46,10 @@
                         <td>{{ $v->level }}</td>
                         <td class="d-flex justify-content-around">
                             <a href="{{ route('petugas.edit', $v->id_petugas) }}" class="btn btn-primary">EDIT</a>
-                            <form action="{{ route('petugas.destroy', $v->id_petugas ) }}" method="post">
+                        <form id="delete-form"   action="{{ route('petugas.destroy', $v->id_petugas ) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger">HAPUS</button>
+                                <button type="button" onclick="confirmDelete()" class="btn btn-danger">HAPUS</button>
                             </form>
                         </td>
                     </tr>
@@ -58,10 +64,29 @@
 @endsection
 
 @section('js')
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready( function () {
             $('#petugasT').DataTable();
         } );
+    </script>
+    <script>
+        function confirmDelete() {
+            swal({
+                title: "Anda yakin ingin menghapus data ini?",
+                text: "Data yang dihapus tidak dapat dikembalikan.",
+                icon: "warning",
+                buttons: ["Batal", "Hapus"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById("delete-form").submit();
+                } else {
+                    swal("Data tidak dihapus.", {
+                        icon: "info",
+                    });
+                }
+            });
+        }
     </script>
 @endsection

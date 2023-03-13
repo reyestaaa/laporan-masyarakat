@@ -1,54 +1,33 @@
 @extends('layouts.admin')
 
 @section('title', 'DASHBOARD')
-@section('header', 'DASHBOARD')
+{{-- @section('header', 'DASHBOARD') --}}
 
-{{-- @section('css')
+@section('css')
 <style>
-    .img-row{
-      height: 100vh;
-    }
+  .text-ungu{
+    color: #6a70fc;
+  }
 </style>
-@endsection --}}
+@endsection
 
 @section('content')
   <div class="row">
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
-          <div class="card-body p-3">
-            <div class="row">
-              <div class="col-8">
-                <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Petugas</p>
-                  <h5 class="font-weight-bolder">
-                    {{ $petugas }}
-                  </h5>
-                </div>
-              </div>
-              <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                  <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
+        <div class="card bg-primary text-white fw-semibold">
           <div class="card-body p-3">
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">Masyarakat</p>
-                  <h5 class="font-weight-bolder">
+                  <h5 class="fw-bold text-white">
                     {{ $masyarakat }}
                   </h5>
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                  <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                <div class="fs-1">
+                  <i class='bx bx-user'></i>
                 </div>
               </div>
             </div>
@@ -56,20 +35,41 @@
         </div>
       </div>
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <div class="card">
+        <div class="card bg-primary text-white fw-semibold">
+          <div class="card-body p-3">
+            <div class="row">
+              <div class="col-8">
+                <div class="numbers">
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Pending</p>
+                  <h5 class="fw-bold text-white">
+                    {{ $pending}}
+                  </h5>
+                </div>
+              </div>
+              <div class="col-4 text-end">
+                <div class="fs-1">
+                  <i class='bx bx-x-circle'></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card bg-primary text-white fw-semibold">
           <div class="card-body p-3">
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">Proses</p>
-                  <h5 class="font-weight-bolder">
+                  <h5 class="fw-bold text-white">
                     {{ $proses }}
                   </h5>
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                  <i class="ni ni-user-run text-lg opacity-10" aria-hidden="true"></i>
+                <div class="fs-1">
+                  <i class='bx bx-run'></i>
                 </div>
               </div>
             </div>
@@ -77,20 +77,20 @@
         </div>
       </div>
       <div class="col-xl-3 col-sm-6">
-        <div class="card">
+        <div class="card bg-primary text-white fw-semibold">
           <div class="card-body p-3">
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">Selesai</p>
-                  <h5 class="font-weight-bolder">
+                  <h5 class="fw-bold text-white">
                     {{ $selesai }}
                   </h5>
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                  <i class="ni ni-satisfied text-lg opacity-10" aria-hidden="true"></i>
+                <div class="fs-1">
+                  <i class='bx bx-smile' ></i>
                 </div>
               </div>
             </div>
@@ -100,10 +100,10 @@
   </div>
   <div class="row mt-5">
     <div class="col-lg-8 mb-lg-0 mb-4">
-      <div class="card ">
+      <div class="card shadow ">
         <div class="card-header pb-0 p-3 border-bottom">
           <div class="d-flex justify-content-center">
-            <h3 class="mb-4" >Pengaduan Yang Pending</h3>
+            <h3 class="mb-4" >Pengaduan Yang <span class="text-danger">Pending</span></h3>
           </div>
         </div>
         <div class="table-responsive">
@@ -113,7 +113,7 @@
                     <tr>
                         <th>NO</th>
                         <th>Tanggal</th>
-                        <th>Isi Laporan</th>
+                        <th>Judul</th>
                         <th>Status</th>
                         <th>Detail</th>
                     </tr>
@@ -123,7 +123,7 @@
                     @foreach ($pengaduan as $k => $v)            
                     <tr>
                         <td>{{ $k += 1 }}</td>
-                        <td>{{ $v->tgl_pengaduan }}</td>
+                        <td>{{ \Carbon\Carbon::parse($v->tgl_pengaduan)->format('d F Y H:i:s') }}</td>
                         <td>{{ $v->judul }}</td>
                         <td>
                             <a href="#" class="btn btn-sm btn-danger">PENDING</a>
@@ -138,10 +138,10 @@
             </table>
         </div>
       </div>
-      <div class="card mt-5">
+      <div class="card shadow mt-5">
         <div class="card-header pb-0 p-3 border-bottom">
           <div class="d-flex justify-content-center">
-            <h3 class="mb-4" >Pengaduan Yang Proses</h3>
+            <h3 class="mb-4" >Pengaduan Yang <span class="text-warning">Proses</span></h3>
           </div>
         </div>
         <div class="table-responsive">
@@ -151,7 +151,7 @@
                     <tr>
                         <th>NO</th>
                         <th>Tanggal</th>
-                        <th>Isi Laporan</th>
+                        <th>Judul</th>
                         <th>Status</th>
                         <th>Detail</th>
                     </tr>
@@ -161,11 +161,12 @@
                     @foreach ($prosest as $k => $v)            
                     <tr>
                         <td>{{ $k += 1 }}</td>
-                        <td>{{ $v->tgl_pengaduan }}</td>
+                        <td>{{ \Carbon\Carbon::parse($v->tgl_pengaduan)->format('d F Y H:i:s') }}</td>
                         <td>{{ $v->judul }}</td>
                         <td>
                             <a href="#" class="btn btn-warning btn-sm">Proses</a>
                         </td>
+                        
                         <td>
                             <a href="{{ route('pengaduan.show', $v->id_pengaduan) }}" class="btn btn-sm btn-primary">LIHAT</a>
                         </td>
@@ -179,35 +180,21 @@
 
     </div>
 
-    <div class="col-lg-4 vh-100">
-      <div class="card card-carousel overflow-hidden p-0" style="height: 70%">
-        <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
-          <div class="carousel-inner border-radius-lg h-100">
-            @foreach ($foto as $k => $v)
-            <div class="carousel-item h-100 active" style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url({{ Storage::url($v->foto) }})  no-repeat; background-size: cover;">
-              <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                    <a href="#" class="btn btn-success btn-sm">SELESAI</a>
-                </div>
-                <div class="p-2 rounded text-center"
-                style="background: rgba(0, 0, 0, 0.7);">
-                    <h3 class="text-white mb-1">{{ $v->judul }}</h3>
-                </div>
+    <div class="col-lg-4">
+      <div class="card mt-3 p-3 shadow">
+          <h4 class="mt-2 text-center fw-bold">Laporan <span class="text-success"> Selesai</span></h4>
+          @foreach ($foto as $item)
+          <div class="card mt-3" style="background: url({{ asset('/images') }}/done.png)  no-repeat bottom right;">
+                  <div class="card-body">
+                      <div class="fw-semibold mb-3 text-ungu">{{ $item->judul }}</div>
+                      <img src="" alt="">
+                  </div>
               </div>
-            </div>
-            @endforeach
-          </div>
-          <button class="carousel-control-prev w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
+          @endforeach
       </div>
     </div>
+
+
   </div>
 @endsection
 

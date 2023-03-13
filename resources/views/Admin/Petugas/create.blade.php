@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('header', 'TAMBAH DATA PETUGAS')
+@section('title', 'TAMBAH DATA PETUGAS')
 
 @section('content')
 
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center align-items-center">
         <div class="col-lg-6 col-12">
-            <div class="card">
-                <div class="card-header">
+            <div class="card shadow">
+                <div class="card-header fs-4 fw-semibold">
                     Form Tambah Petugas
                 </div>
                 <div class="card-body">
@@ -23,11 +23,11 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="text" name="password" id="password" class="form-control">
+                            <input type="password" name="password" id="password" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="telp">No.telepon</label>
-                            <input type="text" name="telp" id="telp" class="form-control">
+                            <input type="number" name="telp" id="telp" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="level">Level</label>
@@ -42,23 +42,22 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-12">
-            @if (Session::has('username'))
-                <div class="alert alert-danger">
-                    {{ Session::get('username') }}
-                </div>
-            @endif
 
-            
-            @if ($errors->any())
-                @foreach ($errors->any() as $error)
-                <div class="alert alert-danger">
-                    {{ $error }}
-                </div>
-                @endforeach
-            @endif
-            
+        @if (Session::has('username'))
+        <div class="alert bg-danger">
+            {{ Session::get('username') }}
         </div>
+        @endif
+
+        
+        @if ($errors->any())
+            @foreach ($errors->any() as $error)
+            <div class="alert bg-danger">
+                {{ $error }}
+            </div>
+            @endforeach
+        @endif
+
     </div>
 
 @endsection

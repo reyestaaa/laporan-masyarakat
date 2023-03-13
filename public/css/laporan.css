@@ -18,8 +18,8 @@ body {
 }
 
 .photo {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     float: left;
     border-radius: 50%;
     margin-right: 16px;
@@ -89,10 +89,9 @@ hr {
 }
 
 .laporan-bottom img {
-    width: 100px;
-    height: 100px;
+    width: clamp(200px, 50%, 300px);
+    height: clamp(200px, 50%, 300px);
     cursor: pointer;
-    margin-top: 10px;
 }
 
 /*# sourceMappingURL=laporan.css.map */

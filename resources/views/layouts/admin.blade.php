@@ -1,136 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="{{ asset('/assets/img/logo.png') }}">
-  <title>
-    Laporian | @yield('header')
-  </title> 
-  <!--     Fonts and icons     -->
+    <meta charset="utf-8" />
+    <title>
+        @yield('title') &dash; {{ config('app.name') }}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('/assets-admin') }}/images/logo.png">
+    <!-- preloader css -->
+    <link rel="stylesheet" href="{{ asset('/assets-admin') }}/css/preloader.min.css" type="text/css" />
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('/assets-admin') }}/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet"
+        type="text/css" />
+    <!-- Choices.js -->
+    <link href="{{ asset('/assets-admin') }}/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet"
+        type="text/css" />
+        
+    <!-- Icons Css -->
+    <link href="{{ asset('/assets-admin') }}/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Nucleo Icons -->
+    <link href="{{asset('/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
+    <link href="{{asset('/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+    @stack('stylesheets')
+    @yield('css')
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="{{asset('/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
-  <link href="{{asset('/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="{{asset('/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link id="pagestyle" href="{{asset('/assets/css/argon-dashboard.css')}}" rel="stylesheet" />
+    <!-- App Css-->
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+    <link href="{{ asset('/assets-admin') }}/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/assets-admin') }}/css/custom.css" id="app-style" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
 </head>
 
-<body class="g-sidenav-show   bg-gray-100">
-  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+<body>
+    <!-- <body data-layout="horizontal"> -->
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        <header id="page-topbar">
+            <div class="navbar-header border-bottom border-3 border-primary">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="{{ asset('/assets-admin') }}/images/logo.png" alt="" height="24">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('/assets-admin') }}/images/logo.png" alt="" height="24"> <span
+                                    class="logo-txt">Laporian</span>
+                            </span>
+                        </a>
+                        <a href="" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{{ asset('/assets-admin') }}/images/logo.png" alt="" height="24">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{{ asset('/assets-admin') }}/images/logo.png" alt="" height="24"> <span
+                                    class="logo-txt">Laporian</span>
+                            </span>
+                        </a>
+                    </div>
+                    <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
+                        <i class="fa fa-fw fa-bars"></i>
+                    </button>
+                </div>
+                <div class="d-flex">
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button" class="btn header-item" id="page-header-search-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i data-feather="search" class="icon-lg"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-search-dropdown">
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search ..."
+                                            aria-label="Search Result">
 
-  {{-- SIDEBAR --}}
-  @include('layouts.sidebar')
-  <main class="main-content position-relative border-radius-lg ">
-    {{-- NAVBAR --}}
-    @include('layouts.navbar')
-    <div class="container-fluid py-4">
-        @yield('content')
-    </div>
-    <footer class="footer pt-3">
-      <div class="container-fluid">
-        <div class="row align-items-center justify-content-lg-between">
-          <div class="col-lg-6 mb-lg-0 mb-4">
-            <div class="copyright text-center text-sm text-muted text-lg-start">
-              © <script>
-                document.write(new Date().getFullYear())
-              </script>,
-              made with <i class="fa fa-heart"></i> by
-              <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Adrian Reyesta</a>
-              for a better web.
+                                        <button class="btn btn-primary" type="submit"><i
+                                                class="mdi mdi-magnify"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="dropdown d-none d-sm-inline-block">
+                        <button type="button" class="btn header-item" id="mode-setting-btn">
+                            <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
+                            <i data-feather="sun" class="icon-lg layout-mode-light"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item bg-soft-light border-start border-end"
+                            id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img class="rounded-circle header-profile-user"
+                                src="{{ asset('/assets-admin') }}/images/users/avatar-10.jpg" alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1 fw-medium">
+                              {{ Auth::guard('admin')->user()->nama_petugas }}
+                            </span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('admin.logout') }}">
+                                <i></i>
+                                <i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Keluar</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </header>
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+            <div data-simplebar class="h-100">
+              @include('layouts.sidebar')
+                {{-- @include('admin::partials.sidebar') --}}
+            </div>
         </div>
-      </div>
-    </footer>
-  </main>
-  <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="fa fa-cog py-2"> </i>
-    </a>
-    <div class="card shadow-lg">
-      <div class="card-header pb-0 pt-3 ">
-        <div class="float-start">
-          <h5 class="mt-3 mb-0">Laporian Configurator</h5>
-          <p>See our dashboard options.</p>
+        <!-- Left Sidebar End -->
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @yield('content')
+                </div> <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script> © LAPORIAN APLIKASI LAPORAN MASYARAKAT.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by <a href="#!" class="text-decoration-underline">MUHAMMAD ADRIAN REYESTA</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <div class="float-end mt-4">
-          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <i class="fa fa-close"></i>
-          </button>
-        </div>
-        <!-- End Toggle Button -->
-      </div>
-      <hr class="horizontal dark my-1">
-      <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-          </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between 2 different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="d-flex my-3">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <div class="mt-2 mb-5 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-      </div>
+        <!-- end main content-->
     </div>
-  </div>
-  <!--   Core JS Files   -->
-  <script src="{{ asset('/assets/js/core/popper.min.js') }}"></script>
-  <script src="{{ asset('/assets/js/core/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-  <script src="{{ asset('/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-    @yield('js')
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ asset('/assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-</body>
+    <!-- END layout-wrapper -->
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+    <!-- JAVASCRIPT -->
 
+    <script src="{{ asset('/assets-admin') }}/libs/jquery/jquery.min.js"></script>
+    <script src="{{ asset('/assets-admin') }}/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('/assets-admin') }}/libs/metismenu/metisMenu.min.js"></script>
+    <script src="{{ asset('/assets-admin') }}/libs/simplebar/simplebar.min.js"></script>
+    <script src="{{ asset('/assets-admin') }}/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{{ asset('/assets-admin') }}/libs/node-waves/waves.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- apexcharts js -->
+    <script src="{{ asset('/assets-admin') }}/libs/apexcharts/apexcharts.min.js"></script>
+    <!-- pace js -->
+    <script src="{{ asset('/assets-admin') }}/libs/pace-js/pace.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"
+        integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('/assets-admin') }}/js/app.js"></script>
+    <script src="{{ asset('/assets-admin') }}/js/custom.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+    @stack('scripts')
+    @yield('js')
+</body>
 </html>
+
+
