@@ -15,20 +15,24 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\Petugas::create([
-            'nama_petugas' => 'Administrator',
-            'username' => 'admin',
-            'password' => Hash::make('password'),
-            'telp' => '081028111',
-            'level' => 'admin'
-        ]);
-
         // \App\Models\Petugas::create([
-        //     'nama_petugas' => 'Petugaser',
-        //     'username' => 'petugas',
+        //     'nama_petugas' => 'Administrator',
+        //     'username' => 'admin',
         //     'password' => Hash::make('password'),
+        //     'alamat' => 'Jalan raya tajur no.23',
         //     'telp' => '081028111',
-        //     'level' => 'petugas'
+        //     'email' => 'admin@gmail.com',
+        //     'level' => 'admin'
         // ]);
+
+        \App\Models\Petugas::create([
+            'nama_petugas' => 'Petugasaaer',
+            'username' => 'petugasaa',
+            'password' => Hash::make('password'),
+            'alamat' => 'Jalan raye Grogol',
+            'telp' => '076233335432',
+            'email' => 'petugasaa@gmail.com',
+            'level' => 'petugasaa'
+        ]);
     }
 }

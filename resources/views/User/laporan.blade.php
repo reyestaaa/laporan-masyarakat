@@ -43,33 +43,39 @@
             border-color: #8e8e8e;
         }
         .header{
-  height: 330px;
-}
+            height: 330px;
+        }
 
-/* Media query untuk layar berukuran kecil */
-@media screen and (max-width: 767px) {
-  .header{
-    height: 350px;
-  }
-}
+        .my-editor {
+            width: 100%; /* menentukan lebar editor */
+            min-height: 300px; /* menentukan tinggi editor */
+        }
 
-/* Media query untuk layar berukuran sedang */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .header{
-    height: 370px;
-  }
-}
+        /* Media query untuk layar berukuran kecil */
+        @media screen and (max-width: 767px) {
+        .header{
+            height: 350px;
+        }
+        }
 
-/* Media query untuk layar berukuran besar */
-@media screen and (min-width: 992px) {
-  .header{
-    height: 330px;
-  }
-}
+        /* Media query untuk layar berukuran sedang */
+        @media screen and (min-width: 768px) and (max-width: 991px) {
+        .header{
+            height: 370px;
+        }
+        }
+
+        /* Media query untuk layar berukuran besar */
+        @media screen and (min-width: 992px) {
+        .header{
+            height: 330px;
+        }
+        }
 
 
 
     </style>
+
 @endsection
 
 @section('title', 'Pengaduan Masyarakat')
@@ -103,9 +109,14 @@
                         <div class="mb-3">
                             <input type="text" name="judul" placeholder="Masukan Judul" class="form-control">
                         </div>
+                        <div class="mb-3 mt-3">
+                            
+                            <input type="hidden" value="{{ old('isi_laporan') }}" id="isi_laporan" name="isi_laporan" placeholder="Masukkan Isi Laporan">
+                                <trix-editor placeholder="Masukan Laporan Anda" input="isi_laporan"></trix-editor>
+                        </div>
                         <div class="mb-3">
-                            <textarea name="isi_laporan" placeholder="Masukkan Isi Laporan" class="form-control"
-                                rows="4">{{ old('isi_laporan') }}</textarea>
+                            <textarea name="lokasi" placeholder="Dimana lokasi kejadian" class="form-control"
+                                rows="4">{{ old('lokasi') }}</textarea>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" name="id_kategori" aria-label="Default select example">
@@ -116,8 +127,12 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <textarea name="lokasi" placeholder="Dimana lokasi kejadian" class="form-control"
-                                rows="4">{{ old('lokasi') }}</textarea>
+                            <select class="form-select" name="id_petugas" aria-label="Default select example">
+                                <option value="">Pilih Intansi</option>
+                                @foreach ($petugas as $item)
+                                    <option value="{{ $item->id_petugas }}">{{ $item->nama_petugas }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <input type="file" name="foto" class="form-control">
@@ -133,54 +148,78 @@
                         <a class="nav-link d-inline tab {{ $siapa != 'me' ? 'tab-active' : ''}} mr-4" href="{{ route('pekat.laporan') }}">
                             Semua
                         </a>
-                        <a class="nav-link d-inline tab {{ $siapa == 'me' ? 'tab-active' : ''}}" href="{{ route('pekat.laporan', 'me') }}">
-                            Laporan Saya
-                        </a>
-                        <hr>
-                    </div>
-                    @foreach ($pengaduan as $k => $v)
-                    <div class="col-lg-12">
-                        <div class="laporan-top">
-                            <img src="{{ asset('images/user_default.svg') }}" alt="profile" class="profile">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <p class="fw-semibold">{{ $v->user->nama }}</p>
-                                    @if ($v->status == '0')
-                                    <p class="text-danger">Pending</p>
-                                    @elseif($v->status == 'proses')
-                                    <p class="text-warning">{{ ucwords($v->status) }}</p>
-                                    @else
-                                    <p class="text-success">{{ ucwords($v->status) }}</p>
-                                    @endif
-                                </div>
-                                <div>
-                                    <p>{{ $v->tgl_pengaduan->format('d M, h:i') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="laporan-mid">
-                            <a href="{{ route('pekat.show', $v->id_pengaduan) }}" class="nav-link judul-laporan mb-2">
-                                {{ $v->judul }}
+                        {{-- @if (!$pengaduan->isEmpty() && $siapa == 'me') --}}
+                            <a class="nav-link d-inline tab {{ $siapa == 'me' ? 'tab-active' : ''}}" href="{{ route('pekat.laporan', 'me') }}">
+                                Laporan Saya
                             </a>
-                            <p class="fw-bold"><i class="bi bi-geo-alt"></i> {{ $v->lokasi }}</p>
-
-                            <p class="fw-bold mb-4">
-                                <i class="bi bi-bookmark-fill text-primary"></i>
-                                <a href="" class="btn btn-primary btn-sm">
-                                    {{ $v->kategori->kategori }}
-                                </a>
-                            </p>
-                           
-                            <p class="fw-semibold"> {{ substr($v->isi_laporan, 0, 300) }}...</p>
-                        </div>
-                        <div class="laporan-bottom">
-                            @if ($v->foto != null)
-                            <img src="{{ Storage::url($v->foto) }}" alt="{{ 'Gambar '.$v->judul_laporan }}" class="zoomable-image">
-                            @endif
-                        </div>
+                        {{-- @endif --}}
+                    
                         <hr>
                     </div>
-                    @endforeach
+                    @if ($pengaduan->isEmpty())
+                        <div class="col-lg-12">
+                            <p>Data Anda Kosong</p>
+                        </div>
+                    @else
+                        @foreach ($pengaduan as $k => $v)
+                            <div class="col-lg-12">
+                                <div class="laporan-top">
+                                    <img src="{{ asset('images/user_default.svg') }}" alt="profile" class="profile">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <p class="fw-semibold">{{ $v->user->nama }}</p>
+                                            @if ($v->status == '0')
+                                            <p class="text-danger">Pending</p>
+                                            @elseif($v->status == 'proses')
+                                            <p class="text-warning">{{ ucwords($v->status) }}</p>
+                                            @else
+                                            <p class="text-success">{{ ucwords($v->status) }}</p>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <p>{{ $v->tgl_pengaduan->format('d M, h:i') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="laporan-mid">
+                                    <a href="{{ route('pekat.show', $v->id_pengaduan) }}" class="nav-link judul-laporan mb-2">
+                                        {{ $v->judul }}
+                                    </a>
+                                    
+                                    <article>
+                                        {!! substr($v->isi_laporan, 0, 300) !!}
+                                    </article>
+                                    <div class="d-flex justify-content">
+                                        <p class="fw-bold">
+                                            <a href="" class="btn btn-primary btn-sm">
+                                                {{ $v->kategori->kategori }}
+                                            </a>
+                                        </p> 
+                                      
+                                        
+                                    </div>
+                                </div>
+                                <div class="laporan-bottom">
+                                    @if ($v->foto != null)
+                                    <img src="{{ Storage::url($v->foto) }}" alt="{{ 'Gambar '.$v->judul_laporan }}" class="zoomable-image">
+                                    @endif
+
+                                    <div class="d-flex mt-3">
+                                        <p class="fw-bold "><i class="bi bi-geo-alt"></i> {{ $v->lokasi }}</p>
+                                        <span class="ms-3 me-3">|</span>
+                                        <p class="fw-bold"> <i class="bi bi-bookmark-fill"></i> {{ $v->petugas->nama_petugas }}</p>
+                                    </div>
+
+
+                                </div>
+                                <hr>
+                            </div>
+                        @endforeach
+                        <div class="d-flex justify-content-center">
+                            {{ $pengaduan->links() }}
+                        </div>
+                    @endif
+                    
                 </div>
             </div>
 
@@ -197,7 +236,7 @@
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col">
-                                <p class="italic mb-0">Terverifikasi</p>
+                                <p class="italic mb-0">Pending</p>
                                 <div class="text-center">
                                     {{ $hitung[0] }}
                                 </div>
@@ -224,7 +263,7 @@
                     @foreach ($selesai1 as $item)
                     <div class="card mt-3" style="background: url({{ asset('/images') }}/done.png)  no-repeat bottom right;">
                             <div class="card-body">
-                                <a href="{{ route('pekat.show', $v->id_pengaduan) }}" class="fw-bold fs-5 mb-3 nav-link text-ungu">{{ $item->judul }}</a>
+                                <a href="{{ route('pekat.show', $item->id_pengaduan) }}" class="fw-bold fs-5 mb-3 nav-link text-ungu">{{ $item->judul }}</a>
                                 <p class="">{{ substr($item->isi_laporan, 0, 120) }}</p>
                                 <p>
                                     <i class="bi bi-person-circle"></i>

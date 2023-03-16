@@ -29,6 +29,28 @@
         border-color: rgb(142, 142, 142);
     }
 
+    .card-img-top{
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .bg-ungu{
+            background-color: #6a70fc;
+        }
+        
+        .text-ungu{
+            color: #6a70fc;
+        }
+
+        .btn-ungu{
+            background-color: #6a70fc;
+            color: white;
+        }
+        .btn-ungu:hover{
+            background-color: #9092ff;
+            color: white;
+        }
 
 
 </style>
@@ -39,64 +61,34 @@
 @section('content')
 
 {{-- Section Card Pengaduan --}}
-<div class="row justify-content-center">
-    <div class="col-lg-7 col-10 col">
-        <div class="content shadow rounded">
-
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <div class="alert alert-danger">{{ $error }}</div>
-                @endforeach
-            @endif
-
-            @if (Session::has('pengaduan'))
-                <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('pengaduan') }}</div>
-            @endif
-
-            @if (Session::has('loginb'))
-            <div class="alert alert-success mt-2">
-                {{ Session::get('loginb') }}
+<div class="container p-5">
+    <div class="row">
+        @foreach ($berita as $item)
+        <div class="col-sm-6 mb-5 mt-5 mb-sm-0">
+            <div class="card shadow border-0">
+              <img src="{{ Storage::url($item->image) }}" class="card-img-top" alt="...">
+            <div class="card-body border-top border-2 border-dark px-4 py-4">
+             <div class=" d-flex align-items-center  justify-content-between align-items-center mb-4">
+                <h5 class="card-title">{{ $item->judul }}</h5>
+                <a href="" class="btn btn-primary btn-sm">{{ $item->kategori->kategori }}</a>
+             </div>
+              <p class="card-text">{{ substr(strip_tags($item->isi_berita), 0, 100) }}
+            </p>
+              <a href="{{ route('show.berita', $item->id) }}" class="btn btn-ungu">Lihat Selanjutnya</a>
             </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <div class="card mb-3">Tulis Laporan Disini</div>
-            <form id="form-pengaduan" action="{{ route('pekat.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <input type="text" name="judul" placeholder="Masukan Judul" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <textarea name="isi_laporan" placeholder="Masukkan Isi Laporan" class="form-control"
-                        rows="4">{{ old('isi_laporan') }}</textarea>
-                </div>
-                <div class="mb-3">
-                    <select class="form-select" name="id_kategori" aria-label="Default select example">
-                        <option value="">Pilih Kategori</option>
-                        @foreach ($kategori as $item)
-                            <option value="{{ $item->id_kategori }}">{{ $item->kategori }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <textarea name="lokasi" placeholder="Dimana lokasi kejadian" class="form-control"
-                        rows="4">{{ old('lokasi') }}</textarea>
-                </div>
-                <div class="mb-3">
-                    <input type="file" name="foto" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-custom mt-2">Kirim</button>
-            </form>
+            <div class="card-footer">
+                <p>
+                <i class="bi bi-clock fs-6 text-dark"></i>
+                {{ $item->created_at->format('d M, h:i') }}
+                </p>
+            </div>
+          </div>
         </div>
+        @endforeach
     </div>
 </div>
 
-<section id="apk" style="border-bottom:0; margin-top:100px; margin-bottom:150px;">
+<section id="apk" style="border-bottom:0; margin-top:100px; margin-bottom:100px;">
     <div class="container">
         <div class="p-5">
             <div class="row bs-wizard" style="border-bottom:0; margin-bottom:70px;">
@@ -152,7 +144,7 @@
                         <div class="card-body">
                             <div class="fw-semibold mb-3 fs-5 text-ungu">{{ $item->judul }}</div>
                             <img src="" alt="">
-                            <p class="fw-light">{{ substr($item->isi_laporan, 0, 70) }}...</p>
+                            <p class="fw-light">{!! substr($item->isi_laporan, 0, 70) !!}...</p>
                         </div>
                     </div>
                 </div>
@@ -162,6 +154,38 @@
         </div>
     </div>
 </section>
+
+<hr>
+
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mt-4 p-3">
+                <h5 class="mt-2 text-center fw-semibold">Kategori Paling Populer</h5>
+                <hr>
+                <div class="card-body">
+                   
+                        <table class="table table-bordered border-secondary text-center">
+                            <thead class="bg-ungu text-white">
+                                <tr>
+                                    <th>Kategori</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($jumlah_pengaduan as $jumlah)
+                                <tr>
+                                    <td class="text-start">{{ $jumlah->kategori }}</td>
+                                    <td>{{ $jumlah->jumlah_pengaduan }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {{-- Section Hitung Pengaduan --}}
 <div class="pengaduan mt-5">

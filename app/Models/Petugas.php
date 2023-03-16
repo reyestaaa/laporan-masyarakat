@@ -15,7 +15,9 @@ class Petugas extends Authenticateble
         'nama_petugas',
         'username',
         'password',
+        'alamat',
         'telp',
+        'email',
         'level'
     ];
 

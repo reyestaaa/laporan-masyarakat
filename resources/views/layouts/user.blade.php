@@ -27,6 +27,10 @@
       <title>
         Laporian | @yield('title')
       </title> 
+
+      <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+      <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+      
 </head>
 
 <body>
@@ -59,17 +63,18 @@
                 </ul>
                 @else
                 <ul class="navbar-nav text-center ms-auto">
-                    <li class="nav-item">
-                        <a class="btn  btn-outline-light" href="{{ asset('user-manual-laporian.pdf') }}">Cara Penggunaan</a>
-                    </li>
+                   
                     <li class="nav-item">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn underline text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Masuk
                         </button>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                         <a href="{{ route('pekat.formRegister') }}" class="btn  btn-outline-light">Daftar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn  btn-outline-light" href="{{ asset('user-manual-laporian.pdf') }}">Cara Penggunaan</a>
                     </li>
                 </ul>
                 @endauth

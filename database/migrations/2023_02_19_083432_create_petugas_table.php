@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('petugas', function (Blueprint $table) {
             $table->id('id_petugas');
-            $table->string('nama_petugas', 35);
+            $table->string('nama_petugas', 50);
             $table->string('username', 25)->unique();
             $table->string('password');
+            $table->text('alamat');
+            $table->string('email')->unique();
             $table->string('telp', 15);
             $table->enum('level', [
                 'admin',

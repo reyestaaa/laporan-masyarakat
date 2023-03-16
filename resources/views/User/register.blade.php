@@ -36,36 +36,54 @@
                     </div>
                     <div class="card-body">
                         <form action="{{ route('pekat.register') }}" method="POST" role="form" >
-                        @csrf
-                        <div class="mb-3">
-                            <input type="number" name="nik" placeholder="NIK" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" name="nama" placeholder="Nama Lengkap" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" name="username" placeholder="Username" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" name="password" placeholder="Password" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="text" name="alamat" placeholder="Alamat" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <input type="tel" name="telp" placeholder="No. Telp" class="form-control">
-                        </div>
-                        <div class="form-check form-check-info text-start">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-                            <label class="form-check-label" for="flexCheckDefault">
-                            I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
-                            </label>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-purple mt-3 mb-4">Sign up</button>
-                        </div>
-                       
+                            @csrf
+                            <div class="mb-3">
+                                <input type="number" name="nik" placeholder="NIK" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" required>
+                                @error('nik')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="nama" placeholder="Nama Lengkap" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" required>
+                                @error('nama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="username" placeholder="Username" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" required>
+                                @error('username')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" name="password" placeholder="Password" class="form-control @error('password') is-invalid @enderror" required>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="alamat" placeholder="Alamat" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}" required>
+                                @error('alamat')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" name="telp" placeholder="No. Telp" class="form-control @error('telp') is-invalid @enderror" value="{{ old('telp') }}" required>
+                                @error('telp')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-check form-check-info text-start">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required>
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                                </label>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-purple mt-3 mb-4">Sign up</button>
+                            </div>
                         </form>
+                        
                         
                          <a href="/" class="mt-5">Kembali</a>
                     </div>

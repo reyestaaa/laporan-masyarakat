@@ -18,6 +18,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('api/wilayah')->group(function () {
-    Route::get('/cari', 'WilayahController@cariProvinsiKota');
-});

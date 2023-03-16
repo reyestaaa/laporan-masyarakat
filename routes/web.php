@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PetugasController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
@@ -14,6 +15,9 @@ use App\Http\Controllers\Admin\TanggapanController;
 // User routes
 
 Route::get('/', [UserController::class, 'index'])->name('pekat.index');
+Route::get('berita/{id}', [BeritaController::class, 'show'])->name('show.berita');
+Route::get('berita', [BeritaController::class, 'index']);
+
 
 Route::middleware(['guest'])->group(function () {
     //Login
@@ -60,6 +64,12 @@ Route::prefix('admin')->group(function () {
         Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::post('getLaporan', [LaporanController::class, 'getLaporan'])->name('laporan.getLaporan');
         Route::get('laporan/cetak/{from}/{to}', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetakLaporan');
+
+        Route::resource('berita', BeritaController::class);
+
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+      
+
     });
 
 
@@ -86,9 +96,9 @@ Route::prefix('admin')->group(function () {
     });
     
      //Laporan
-     Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
-     Route::post('getLaporan', [LaporanController::class, 'getLaporan'])->name('laporan.getLaporan');
-     Route::get('laporan/cetak/{from}/{to}', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetakLaporan');
+    //  Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    //  Route::post('getLaporan', [LaporanController::class, 'getLaporan'])->name('laporan.getLaporan');
+    //  Route::get('laporan/cetak/{from}/{to}', [LaporanController::class, 'cetakLaporan'])->name('laporan.cetakLaporan');
 });
 
 Route::get('error', function () {

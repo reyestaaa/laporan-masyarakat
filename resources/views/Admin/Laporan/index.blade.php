@@ -9,7 +9,7 @@
         <div class="card shadow border border-secondary border-3">
             <div class="card-header ">
                 <div class="text-center fs-4 fw-semibold">
-                    Cari berdasarkan tnggal
+                    Cari Data Laporan
                 </div>
             </div>
             <div class="card-body">
@@ -21,6 +21,31 @@
                     <div class="form-group mb-3">
                         <input type="text" name="to" class="form-control" placeholder="TANGGAL AKHIR" onfocusin="{this.type='date'}" onfocusout="{this.type='text'}">
                     </div>
+
+                    <div class="form-group mb-3">
+                        <select name="status" class="form-select">
+                            <option value="">-- Pilih Status --</option>
+                            <option value="0">Pending</option>
+                            <option value="proses">Proses</option>
+                            <option value="selesai">Selesai</option>
+                        </select>
+                    </div>
+
+                    <select class="form-select mb-3" name="kategori">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($kategori as $row)
+                            <option value="{{ $row->id_kategori }}">{{ $row->kategori }}</option>
+                        @endforeach
+                    </select>
+
+                    <select class="form-select mb-3" name="petugas">
+                        <option value="">-- Pilih Instansi --</option>
+                        @foreach($petugas as $data)
+                            <option value="{{ $data->id_petugas }}">{{ $data->nama_petugas }}</option>
+                        @endforeach
+                    </select>
+                    
+
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary w-50 fw-bold fs-5">Cari</button>
                     </div>
@@ -33,11 +58,11 @@
             <div class="card-header ">
 
                 <div class="text-center fs-4 fw-semibold">
-                    Data berdasarkan tnggal
+                    Hasil Data Laporan
                 </div>
                 <div class="float-right mt-3">
                     @if ($pengaduan ?? '')
-                        <a href="{{ route('laporan.cetakLaporan', ['from' => $from, 'to' => $to]) }}" class="btn btn-danger">EKSPORT PDF</a>
+                        <a href="{{ route('laporan.cetakLaporan',['from' => $from, 'to' => $to, 'status' => $status, 'kategori' => $kategori, 'petugas' => $petugas]) }}" class="btn btn-danger">EKSPORT PDF</a>
                     @endif
                 </div>
             </div>
@@ -59,6 +84,7 @@
                             <tr>
                                 <td>{{ $k += 1 }}</td>
                                 <td>{{ $v->tgl_pengaduan}}</td>
+                                <td>{{ $v->kategori->kategori}}</td>
                                 <td>{{ $v->judul}}</td>
                                 <td>
                                     @if ($v->status == '0')

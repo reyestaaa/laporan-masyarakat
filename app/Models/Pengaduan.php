@@ -18,6 +18,7 @@ class Pengaduan extends Model
         'nik',
         'isi_laporan',
         'id_kategori',
+        'id_petugas',
         'lokasi',
         'judul',
         'foto',
@@ -45,5 +46,9 @@ class Pengaduan extends Model
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
+    }
+    public function petugas()
+    {
+        return $this->belongsTo(Petugas::class, 'id_petugas', 'id_petugas');
     }
 }

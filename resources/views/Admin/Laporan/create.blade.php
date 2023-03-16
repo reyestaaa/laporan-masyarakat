@@ -63,9 +63,11 @@
                     <td>{{ $k += 1 }}</td>
                     <td>{{ $v->tgl_pengaduan->format('d-M-Y') }}</td>
                     <td>{{ $v->judul}}</td>
-                    <td>{{ $v->kategori->kategori}}</td>
                     <td>{{ $v->lokasi}}</td>
-                    <td>{{ $v->isi_laporan}}</td>
+                    <td>{{ $v->kategori->kategori}}</td>
+                    <td> {{ substr(strip_tags($v->isi_laporan), 0, 300) }}
+                    </td>
+                   
                     <td>
                         {{ $v->status == '0' ? 'Pending' : ucwords($v->status) }}
                     </td>

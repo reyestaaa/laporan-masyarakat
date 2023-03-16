@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama', 35);
             $table->string('username', 25)->unique();
             $table->string('password');
+            $table->text('alamat');
             $table->string('telp', 15);
             $table->timestamps();
         });

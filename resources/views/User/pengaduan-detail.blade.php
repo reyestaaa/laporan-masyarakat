@@ -115,8 +115,10 @@
                             <a href="" class="btn btn-primary btn-sm">
                                 {{ $pengaduan->kategori->kategori }}
                             </a>
+                            <article>
+                                {!! $pengaduan->isi_laporan !!}
+                            </article>
                             
-                            <p>{{ $pengaduan->isi_laporan }}</p>
                         </div>
                         <div class="laporan-bottom">
                             

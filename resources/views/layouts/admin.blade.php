@@ -24,8 +24,10 @@
     <!-- Nucleo Icons -->
     <link href="{{asset('/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
     <link href="{{asset('/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
-    @stack('stylesheets')
     @yield('css')
+
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
 
     <!-- App Css-->
     <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
@@ -172,7 +174,6 @@
     <script src="{{ asset('/assets-admin') }}/js/app.js"></script>
     <script src="{{ asset('/assets-admin') }}/js/custom.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    @stack('scripts')
     @yield('js')
 </body>
 </html>

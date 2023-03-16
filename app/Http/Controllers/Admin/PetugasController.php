@@ -16,7 +16,8 @@ class PetugasController extends Controller
     public function index()
     {
         return view('Admin.Petugas.index', [
-            'petugas' => Petugas::latest()->get()
+            'petugas' => Petugas::where('level', 'petugas')->latest()->get()
+
         ]);
     }
     
@@ -41,6 +42,8 @@ class PetugasController extends Controller
              'nama_petugas' => 'required|string|max:255',
              'username' => 'required|string|unique:petugas',
              'password' => 'required|string|min:6',
+             'alamat' => 'required',
+             'email' => 'required',
              'telp' => 'required',
              'level' => 'required|in:admin,petugas',
          ]);
@@ -59,6 +62,8 @@ class PetugasController extends Controller
              'nama_petugas' => $data['nama_petugas'],
              'username' => $data['username'],
              'password' => Hash::make($data['password']), 
+             'alamat' => $data['alamat'],
+             'email' => $data['email'],
              'telp' => $data['telp'],
              'level' => $data['level'] 
          ]);

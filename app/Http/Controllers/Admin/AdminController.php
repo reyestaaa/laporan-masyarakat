@@ -11,6 +11,26 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
 
+    public function index()
+    {
+        return view('Admin.AdminV.index', [
+            'admin' => Petugas::where('level', 'admin')->latest()->get()
+
+        ]);
+    }
+
+    public function create()
+    {
+        return view('Admin.AdminV.create');
+    }
+
+    public function edit(string $id_petugas)
+    {
+        return view('Admin.AdminV.edit', [
+            'admin' => Petugas::where('id_petugas', $id_petugas)->first()
+        ]);
+    }
+
     public function formLogin()
     {
         return view('Admin.login');
